@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homo oeconomicus — Zeit für den Abschied?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#0d1220; --bg-alt:#111830; --surface:#171f38; --surface-alt:#1c2542;
+    --ink:#eef1fb; --ink-2:#b9c2e0; --ink-mute:#8790b3;
+    --accent:#33d6a6; --accent-strong:#7af0c9; --accent-soft:#123b32;
+    --amber:#ffb648; --amber-soft:#3a2a12;
+    --danger:#ff6b6b; --danger-soft:#3a1620;
+    --border:#2a3358; --border-strong:#3a4470;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+    --pro:#4d9bff; --pro-soft:#12233f;
+    --contra:#ff9f4d; --contra-soft:#3a260f;
+    font-family: "Inter", system-ui, sans-serif;
+  }
+  :root[data-theme="light"]{
+    color-scheme: light;
+    --bg:#f5f3ec; --bg-alt:#eceadf; --surface:#ffffff; --surface-alt:#f1efe6;
+    --ink:#191c2b; --ink-2:#4a4f6b; --ink-mute:#7d8199;
+    --accent:#0f9d76; --accent-strong:#0c7a5c; --accent-soft:#e0f5ee;
+    --amber:#b5750a; --amber-soft:#fbf0da;
+    --danger:#c9403f; --danger-soft:#fbe6e5;
+    --border:#e0ddd0; --border-strong:#c8c4b3;
+    --shadow:0 1px 2px rgba(20,20,10,.06), 0 8px 24px rgba(20,20,10,.06);
+    --pro:#1f5fb5; --pro-soft:#e7f0fc;
+    --contra:#b5620a; --contra-soft:#fbeede;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      color-scheme: light;
+      --bg:#f5f3ec; --bg-alt:#eceadf; --surface:#ffffff; --surface-alt:#f1efe6;
+      --ink:#191c2b; --ink-2:#4a4f6b; --ink-mute:#7d8199;
+      --accent:#0f9d76; --accent-strong:#0c7a5c; --accent-soft:#e0f5ee;
+      --amber:#b5750a; --amber-soft:#fbf0da;
+      --danger:#c9403f; --danger-soft:#fbe6e5;
+      --border:#e0ddd0; --border-strong:#c8c4b3;
+      --shadow:0 1px 2px rgba(20,20,10,.06), 0 8px 24px rgba(20,20,10,.06);
+      --pro:#1f5fb5; --pro-soft:#e7f0fc;
+      --contra:#b5620a; --contra-soft:#fbeede;
+    }
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0; padding:0;}
+  body{ background:var(--bg); color:var(--ink); min-height:100vh; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; font-weight:700; margin:0 0 8px; line-height:1.18; color:var(--ink); }
+  p{margin:0 0 10px; line-height:1.6; color:var(--ink-2);}
+  .wrap{ max-width:680px; margin:0 auto; padding:0 18px 60px; }
+  section{ scroll-margin-top:66px; }
+
+  .topbar{ position:sticky; top:0; z-index:30; background:var(--bg); border-bottom:1px solid var(--border); }
+  .topbar-in{ max-width:680px; margin:0 auto; padding:12px 18px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+  .brand{ font-weight:800; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent-strong); display:flex; align-items:center; gap:7px; white-space:nowrap; }
+  .info-btn{ background:var(--surface-alt); color:var(--ink-2); border:1px solid var(--border); border-radius:999px; padding:6px 13px; font-size:12.5px; font-weight:600; cursor:pointer; font-family:inherit; white-space:nowrap;}
+  .navrow{ display:flex; gap:6px; overflow-x:auto; padding:0 18px 10px; max-width:680px; margin:0 auto; scrollbar-width:none; }
+  .navrow::-webkit-scrollbar{ display:none; }
+  .navlink{ flex-shrink:0; font-size:12.5px; font-weight:600; padding:7px 12px; border-radius:999px; background:var(--surface-alt); color:var(--ink-2); text-decoration:none; border:1px solid var(--border); }
+  .navlink.active{ background:var(--accent-soft); color:var(--accent-strong); border-color:var(--accent); }
+
+  .info-panel{ background:var(--surface-alt); border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin:12px 18px 0; font-size:13px; color:var(--ink-2); max-width:680px; }
+  .info-panel h3{ font-size:14px; margin-bottom:8px; color:var(--ink); }
+  .info-panel ul{ margin:0; padding-left:18px; }
+  .info-panel li{ margin-bottom:6px; }
+
+  .hero{ text-align:center; padding:34px 4px 10px; }
+  .hero .kicker{ font-size:12.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--amber); margin-bottom:10px; }
+  .hero h1{ font-size:30px; }
+  .hero-art{ width:100%; max-width:220px; height:140px; margin:6px auto 10px; }
+  .hero-art svg{ display:block; }
+  .hook{ font-size:16px; color:var(--ink); font-style:italic; }
+
+  .btn{ font-family:inherit; font-size:15px; font-weight:700; border-radius:12px; padding:13px 20px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); cursor:pointer; text-decoration:none; display:inline-block; }
+  .btn:hover{ filter:brightness(1.08); }
+  .btn.primary{ background:var(--accent); border-color:var(--accent); color:#04201a; }
+  .btn.big{ width:100%; text-align:center; padding:15px 20px; font-size:15.5px; }
+  .btn.primary:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; box-shadow:var(--shadow); margin-bottom:14px; }
+  .section-head{ margin:40px 0 14px; }
+  .section-head .num{ font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--amber); margin-bottom:4px; }
+  .section-head h2{ font-size:23px; }
+
+  .icon-sm{ width:34px; height:34px; border-radius:10px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .icon-sm svg{ width:19px; height:19px; stroke:var(--accent-strong); fill:none; }
+
+  .praemisse-grid{ display:flex; flex-direction:column; gap:10px; }
+  .praemisse{ display:flex; gap:12px; align-items:flex-start; background:var(--surface-alt); border-radius:12px; padding:13px 14px; }
+  .praemisse .txt b{ display:block; font-size:14.5px; color:var(--ink); margin-bottom:3px; }
+  .praemisse .txt p{ margin:0; font-size:13.5px; }
+
+  .model-note{ background:var(--amber-soft); border-left:3px solid var(--amber); border-radius:10px; padding:12px 14px; font-size:13.5px; color:var(--ink); margin:14px 0; }
+
+  .check-card{ margin-bottom:10px; }
+  .check-q{ font-size:14.5px; color:var(--ink); font-weight:600; margin-bottom:10px; }
+  .check-opt{ display:block; width:100%; text-align:left; font-family:inherit; font-size:13.5px; padding:11px 14px; border-radius:10px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); cursor:pointer; margin-bottom:7px; line-height:1.4; }
+  .check-opt.chosen{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent-strong); }
+  .check-opt:disabled{ cursor:default; }
+  .check-result{ text-align:center; padding:6px 0; }
+  .check-result .big-num{ font-family:"Fraunces",serif; font-weight:700; font-size:40px; color:var(--accent-strong); }
+
+  .scenario-box{ background:var(--surface-alt); border-radius:12px; padding:14px 16px; margin:14px 0; border-left:3px solid var(--accent); }
+  .scenario-box p{ margin:0; color:var(--ink); font-size:14.5px; }
+  .slider-block{ margin:18px 0; }
+  .slider-val{ text-align:center; font-family:"Fraunces",serif; font-size:32px; font-weight:700; color:var(--accent-strong); margin-bottom:6px; }
+  input[type="range"]{ width:100%; accent-color:var(--accent); height:6px; }
+  .slider-labels{ display:flex; justify-content:space-between; font-size:12px; color:var(--ink-mute); margin-top:4px; }
+  .feedback-box{ border-radius:12px; padding:14px 16px; margin:14px 0; font-size:14px; line-height:1.5; }
+  .feedback-box.good{ background:var(--accent-soft); color:var(--ink); border:1px solid var(--accent); }
+  .feedback-box.bad{ background:var(--danger-soft); color:var(--ink); border:1px solid var(--danger); }
+  .quiz-opt{ display:block; width:100%; text-align:left; font-family:inherit; font-size:14px; padding:13px 15px; border-radius:12px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); cursor:pointer; margin-bottom:9px; line-height:1.4; }
+  .quiz-opt.correct{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent-strong); }
+  .quiz-opt.wrong{ border-color:var(--danger); background:var(--danger-soft); color:var(--danger); }
+  .quiz-opt:disabled{ cursor:default; }
+
+  .kritik-card{ margin-bottom:12px; overflow:hidden; }
+  .kritik-head{ display:flex; align-items:center; gap:12px; cursor:pointer; }
+  .kritik-head h3{ font-size:15.5px; margin:0; flex:1; }
+  .kritik-tag{ font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; padding:3px 9px; border-radius:999px; }
+  .kritik-tag.kritik{ background:var(--contra-soft); color:var(--contra); }
+  .kritik-tag.verteidigung{ background:var(--pro-soft); color:var(--pro); }
+  .chevron{ font-size:13px; color:var(--ink-mute); transition:transform .2s ease; flex-shrink:0; }
+  .kritik-card.open .chevron{ transform:rotate(180deg); }
+  .kritik-body{ margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
+  .kritik-body .lbl{ font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:4px; display:block; }
+  .kritik-body .vorhersage{ background:var(--surface-alt); border-radius:10px; padding:11px 13px; font-size:13.5px; color:var(--ink); margin-bottom:12px; }
+  .kritik-body .text{ font-size:13.5px; color:var(--ink-2); margin-bottom:12px; }
+  .kritik-body .pointe{ background:var(--accent-soft); border-left:3px solid var(--accent); border-radius:10px; padding:11px 13px; font-size:13.5px; color:var(--ink); }
+  .kritik-card[data-spannung="homo_oeconomicus"] .pointe{ border-left-color:var(--pro); background:var(--pro-soft); }
+
+  .scicol{ margin-bottom:16px; }
+  .scicol h3{ font-size:15px; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  .scicol.contra h3{ color:var(--contra); } .scicol.pro h3{ color:var(--pro); }
+  .sci-item{ font-size:13.5px; color:var(--ink-2); padding:9px 0; border-bottom:1px solid var(--border); }
+  .sci-item:last-child{ border-bottom:none; }
+  .fazit-box{ background:var(--amber-soft); border:1px solid var(--amber); border-radius:12px; padding:14px 16px; font-size:13.5px; color:var(--ink); margin-top:4px; }
+
+  .pos-slider-labels{ display:flex; justify-content:space-between; font-size:12.5px; color:var(--ink-mute); margin-bottom:6px; font-weight:600; }
+  textarea#noteArea{ width:100%; min-height:110px; font-family:inherit; font-size:13.5px; padding:12px 14px; border-radius:12px; border:1px solid var(--border-strong); background:var(--surface-alt); color:var(--ink); resize:vertical; }
+  .save-hint{ font-size:12px; color:var(--ink-mute); margin-top:6px; }
+
+  .glossary-item{ border-bottom:1px solid var(--border); padding:12px 0; }
+  .glossary-item:last-child{ border-bottom:none; }
+  .glossary-item .term{ font-weight:700; color:var(--ink); font-size:14.5px; margin-bottom:3px; }
+  .glossary-item .def{ font-size:13.5px; color:var(--ink-2); }
+
+  [hidden]{ display:none !important; }
+
+  @media (max-width:420px){
+    .wrap{ padding:0 12px 50px; }
+    .hero h1{ font-size:24px; }
+    .card{ padding:15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">📊 Homo oeconomicus</div>
+    <button class="info-btn" id="infoBtn">ℹ️ Für Lehrkräfte</button>
+  </div>
+  <div class="navrow" id="navrow"></div>
+</div>
+<div id="infoPanelHolder"></div>
+
+<div class="wrap" id="stage"></div>
+
+<script type="application/json" id="game-data">
+{
+  "meta": {
+    "titel": "Homo oeconomicus — Zeit für den Abschied?",
+    "quelle": "Inhalte und Beispiele angelehnt an die Unterrichtseinheit „Homo oeconomicus – Zeit für den Abschied?“ (Autor: Dr. Stephan Podes) der Joachim Herz Stiftung, teacheconomy.de — für die 10. Jahrgangsstufe WR (NTG) didaktisch vereinfacht und als eigenständige, browserbasierte Webseite umgesetzt."
+  },
+  "nav": [
+    {"id": "theorie", "label": "1. Die Theorie"},
+    {"id": "spiel", "label": "2. Das Experiment"},
+    {"id": "kritik", "label": "3. Die Kritik"},
+    {"id": "wissenschaft", "label": "4. Was sagt die Forschung?"},
+    {"id": "position", "label": "5. Deine Position"}
+  ],
+  "praemissen": [
+    {"id": "rational", "label": "Rationale Entscheidung", "text": "Er wägt alle Vor- und Nachteile ab und wählt die Option, die ihm am meisten nützt — unbeeinflusst von Gefühlen."},
+    {"id": "nutzen", "label": "Nutzenmaximierung", "text": "Er hat stets das Ziel, seinen eigenen Nutzen so weit wie möglich zu steigern — sei es Geld, Zeit oder Wohlbefinden."},
+    {"id": "stabil", "label": "Stabile Präferenzen", "text": "Seine Vorlieben und Abneigungen ändern sich nicht von einer Entscheidung zur nächsten."},
+    {"id": "info", "label": "Vollständige Information", "text": "Er kennt alle Alternativen und alle Konsequenzen seiner Entscheidung vollständig."}
+  ],
+  "selbstcheck": [
+    {
+      "frage": "Du stehst vor dem Eisregal mit 20 Sorten. Wählst du …",
+      "optionen": ["die Sorte, die objektiv am meisten Kalorien pro Euro liefert", "die, die ich sonst auch meistens nehme"],
+      "homo_oeconomicus_antwort": 0
+    },
+    {
+      "frage": "Du bekommst ein Geburtstagsgeschenk, das dir nicht gefällt. Verkaufst du es sofort zum Marktpreis?",
+      "optionen": ["Ja, sofort — der Marktpreis zählt", "Eher nicht, es ist ja jetzt meins"],
+      "homo_oeconomicus_antwort": 0
+    },
+    {
+      "frage": "Du suchst einen Handyvertrag. Vergleichst du vorher wirklich ALLE verfügbaren Anbieter?",
+      "optionen": ["Ja, ich prüfe jede einzelne Option durch", "Nein, ich nehme einen aus den ersten paar Treffern"],
+      "homo_oeconomicus_antwort": 0
+    }
+  ],
+  "ultimatum": {
+    "intro": "Stell dir vor: Du bekommst 10 € und musst sie mit einer zweiten Person teilen. Du machst ein einmaliges Angebot. Nimmt die andere Person an, bekommt ihr beide den vorgeschlagenen Betrag. Lehnt sie ab, bekommt KEINE von beiden Personen etwas.",
+    "reject_threshold": 3,
+    "quiz": {
+      "frage": "Ein perfekt rationaler Nutzenmaximierer (Empfänger) müsste laut Modell JEDES Angebot über 0 € annehmen — selbst 1 €, denn 1 € ist besser als nichts. Was zeigen echte Experimente?",
+      "optionen": [
+        "Genau das — fast alle nehmen jedes Angebot über 0 € an.",
+        "Das Gegenteil: Angebote unter etwa 20–30 % werden von vielen Menschen abgelehnt, obwohl sie dadurch selbst leer ausgehen."
+      ],
+      "richtig": 1,
+      "erklaerung": "Menschen bestrafen als „unfair“ empfundene Angebote — selbst auf eigene Kosten. Das widerspricht der reinen Nutzenmaximierungs-Annahme des Homo oeconomicus: Fairness wiegt für die meisten Menschen schwerer als ein kleiner sicherer Gewinn."
+    },
+    "diktator": {
+      "frage": "Beim Diktatorspiel bestimmt eine Person die Aufteilung allein — die andere kann NICHT ablehnen. Bieten Menschen hier im Schnitt mehr oder weniger an als beim Ultimatumspiel?",
+      "optionen": ["Mehr", "Weniger"],
+      "richtig": 1,
+      "erklaerung": "Ohne Ablehnungsrisiko sinkt das durchschnittliche Angebot spürbar. Das zeigt: Ein Teil des „fairen“ Verhaltens im Ultimatumspiel ist strategisch kalkuliert, nicht nur altruistisch — Menschen sind weder reine Egoisten noch reine Altruisten."
+    }
+  },
+  "kritikpunkte": [
+    {
+      "id": "trompetentierchen",
+      "icon": "cell",
+      "titel": "Das Trompetentierchen-Gegenargument",
+      "kicker": "Verteidigung des Modells",
+      "vorhersage": "Das Blaue Trompetentierchen (Stentor coeruleus) ist ein einzelliges Lebewesen ganz ohne Gehirn oder Nervensystem.",
+      "text": "Trotzdem verhält es sich erstaunlich „rational“: Ist sein bevorzugtes Futter zu teuer (also zu mühsam zu erreichen), begnügt es sich mit zweitklassigem Futter. Wird das bevorzugte Futter wieder günstiger, spuckt es das bereits aufgenommene Futter aus und wechselt zurück. Ähnliche „rationale“ Verhaltensmuster zeigen Forscher bei Tauben, Ratten und Schlangen.",
+      "pointe": "Die Pointe: Niemand unterstellt diesen Tieren Denkvermögen. Der Homo oeconomicus beansprucht auch bei Menschen nie, die Realität 1:1 abzubilden — genauso wenig wie eine Landkarte im Maßstab 1:1 sinnvoll wäre. Ein Modell MUSS vereinfachen, um nützlich zu sein. Wer dem Homo oeconomicus „Realitätsferne“ vorwirft, müsste aus demselben Grund auch Physiker:innen kritisieren, die Experimente im Vakuum statt unter Alltagsbedingungen durchführen.",
+      "spannung": "homo_oeconomicus"
+    },
+    {
+      "id": "besitztum",
+      "icon": "mug",
+      "titel": "Der Becher-Versuch von Richard Thaler",
+      "kicker": "Kritik am Modell",
+      "vorhersage": "Klassische Theorie: Der Wert eines Gutes ist für ein Wirtschaftssubjekt unabhängig davon, ob es das Gut bereits besitzt oder nicht.",
+      "text": "Thaler verteilte zufällig Kaffeebecher an eine Gruppe Studierender, die andere Gruppe bekam keinen. Als die Becher zum Verkauf standen, verlangten die Besitzer:innen im Schnitt etwa den DOPPELTEN Betrag von dem, was die Nichtbesitzer:innen für denselben Becher zu zahlen bereit waren.",
+      "pointe": "Dieser „Besitztumseffekt“ (endowment effect) zeigt: Allein der Besitz eines Gutes lässt uns dessen Wert höher einschätzen — unabhängig vom objektiven Marktwert. 2017 erhielt Thaler dafür den Wirtschaftsnobelpreis.",
+      "spannung": "kritik"
+    },
+    {
+      "id": "mental",
+      "icon": "wallet",
+      "titel": "Gedankliche Budgets (Mental Accounting)",
+      "kicker": "Kritik am Modell",
+      "vorhersage": "Klassische Theorie: Geld ist Geld — ein Euro gespartes Benzingeld lässt sich rational für jeden anderen Zweck einsetzen.",
+      "text": "Thaler zeigte: Wenn die Benzinpreise fallen, geben Menschen das gesparte Geld meist NICHT für andere notwendige Ausgaben aus. Stattdessen kaufen sie eher teureres Premium-Benzin.",
+      "pointe": "Menschen teilen ihr Geld gedanklich in feste „Budget-Töpfe“ für bestimmte Zwecke auf, statt es wie im Modell angenommen flexibel und zweckunabhängig einzusetzen.",
+      "spannung": "kritik"
+    },
+    {
+      "id": "fairness",
+      "icon": "taxi",
+      "titel": "Das Taxifahrer-Experiment von Matthias Sutter",
+      "kicker": "Kritik am Modell",
+      "vorhersage": "Klassische Theorie: Jeder Taxifahrer hat einen hohen Anreiz, bei jeder Fahrt das Maximum herauszuholen — besonders bei ortsfremden Fahrgästen, die den Preis nicht einschätzen können.",
+      "text": "In Athen ließ der Verhaltensökonom Matthias Sutter Testpersonen verschiedene Situationen durchspielen: mal als Ortsfremde, mal mit Hinweis auf eine zahlende Firma, mal mit Bitte um Quittung. Genau das, was ökonomisch am meisten Anreiz zum Ausnutzen bot, geschah am seltensten.",
+      "pointe": "Fast 70 % der Fahrer sind der Versuchung NICHT erlegen. Sutters Fazit: „Wir sind keine kalten, egoistischen Nutzenmaximierer, sondern haben einen Sinn für Fairness.“",
+      "spannung": "kritik"
+    },
+    {
+      "id": "kooperation",
+      "icon": "handshake",
+      "titel": "Das Kooperations-Experiment",
+      "kicker": "Kritik am Modell",
+      "vorhersage": "Klassische Theorie: Bei einem Spiel, bei dem gemeinsam eingezahltes Geld erhöht und gleich aufgeteilt wird, ist es für jeden Einzelnen am rationalsten, selbst NICHTS einzuzahlen und trotzdem vom Anteil der anderen zu profitieren (Trittbrettfahren).",
+      "text": "Sutters Versuch: Zwei Personen haben je 10 €. Was auf den Tisch gelegt wird, wird um 50 % erhöht und gleich geteilt. Zahlt nur eine Person alles ein, hat sie am Ende weniger als die andere — trotzdem wählten über 50 % der Menschen die Kooperation.",
+      "pointe": "Menschen sind bereit zu kooperieren, WENN sie davon ausgehen können, dass andere es auch tun. Dieses Prinzip der „bedingten Kooperation“ lässt sich auch im echten Berufsalltag beobachten.",
+      "spannung": "kritik"
+    },
+    {
+      "id": "information",
+      "icon": "maze",
+      "titel": "Die Grenzen vollständiger Information",
+      "kicker": "Kritik am Modell",
+      "vorhersage": "Klassische Theorie: Rationale Entscheidungen setzen voraus, dass alle Optionen und deren Folgen bekannt sind.",
+      "text": "Sutter im Interview: „Wer kennt schon alle Optionen? Das ist bereits bei einer vermeintlich simplen Entscheidung wie der Wahl eines neuen Stromanbieters nahezu unmöglich — weil es einfach so unglaublich viele Anbieter gibt.“ Bei größeren Entscheidungen wie der Studienwahl ist die Unsicherheit noch größer.",
+      "pointe": "Vollständige Information ist in der Praxis fast nie gegeben. Menschen entscheiden mit Lücken im Wissen — und müssen dabei abschätzen statt genau zu berechnen.",
+      "spannung": "kritik"
+    },
+    {
+      "id": "wohlergehen",
+      "icon": "heart",
+      "titel": "Besitz bedeutet nicht alles",
+      "kicker": "Kritik am Modell",
+      "vorhersage": "Klassische Theorie: Ziel wirtschaftlichen Handelns ist es, materiell möglichst viel zu besitzen — mehr Güter bedeuten mehr Nutzen.",
+      "text": "Der Ökonom Dennis J. Snower zeigt: Ist einmal echte Armut überwunden, wächst die Zufriedenheit nicht im gleichen Maß wie der Wohlstand weiter. Wir gewöhnen uns schnell an einen höheren Lebensstandard — und überschätzen systematisch, wie viel Freude uns der nächste Kauf wirklich bringt.",
+      "pointe": "Forschung aus Psychologie, Soziologie und Neurologie zeigt: Echte Erfüllung entsteht eher durch eigene Erfolge, persönliche Beziehungen, Zugehörigkeitsgefühl — und dadurch, anderen etwas zu geben.",
+      "spannung": "kritik"
+    }
+  ],
+  "wissenschaft": {
+    "contra": {
+      "titel": "Stimmen gegen das Modell",
+      "punkte": [
+        "Richard Thaler erhält 2017 den Wirtschaftsnobelpreis für seine Forschung zu kognitiven Grenzen und mangelnder Selbstkontrolle beim rationalen Entscheiden.",
+        "Daniel Kahneman wird für die Einführung psychologischer Erkenntnisse in die Wirtschaftswissenschaft ausgezeichnet — vor allem zu Urteilen und Entscheidungen unter Unsicherheit.",
+        "Vernon L. Smith erhält 2002 den Nobelpreis für den Einsatz von Laborexperimenten in der empirischen ökonomischen Analyse.",
+        "Mit dem „Homo reciprocans“ (u. a. Armin Falk und Ernst Fehr) existiert ein Alternativmodell, das Gegenseitigkeit statt reinem Eigennutz in den Mittelpunkt stellt.",
+        "Die „Initiative für eine bessere ökonomische Bildung“ plädiert für eine Pluralisierung der ökonomischen Ansätze.",
+        "Maja Göpel kritisiert in „Unsere Welt neu denken“ (2020) ein allein auf den Homo oeconomicus ausgerichtetes Wirtschaftssystem.",
+        "Das Handelsblatt zählte 2012 den Homo oeconomicus zu den „größten Irrtümern der Volkswirtschaftslehre“."
+      ]
+    },
+    "pro": {
+      "titel": "Stimmen für das Modell",
+      "punkte": [
+        "Als theoretische Vereinfachung hat das Modell des Homo oeconomicus mit der Annahme selbstinteressierten, vorteilsorientierten Handelns unter Knappheitsbedingungen lange gute Dienste geleistet.",
+        "Kein Modell hat den Anspruch, die gesamte Realität abzubilden — das wäre so wenig sinnvoll wie eine Landkarte im Maßstab 1:1.",
+        "Hanno Beck (Behavioral Economics, 2014): Die Befunde der Behavioral Economics diskreditieren nicht das Modell funktionsfähiger, wohlfahrtsmaximierender Märkte.",
+        "Auch nach über 40 Jahren Forschung in der Behavioral Economics gibt es noch keinen Anlass, die Idee des vernunftbegabten Menschen komplett über Bord zu werfen — vermutlich muss sie nur ein wenig angepasst werden."
+      ]
+    },
+    "fazit": "Diese Streitfrage ist bewusst kontrovers — Wissenschaft und Öffentlichkeit sind sich uneinig. Genau deshalb bildet ihr euch jetzt eure eigene Meinung."
+  },
+  "glossar": [
+    {"begriff": "Homo oeconomicus", "definition": "Modellhafte Annahme eines Menschen, der rational, nutzenmaximierend, mit stabilen Präferenzen und vollständiger Information entscheidet."},
+    {"begriff": "Verhaltensökonomik (Behavioral Economics)", "definition": "Forschungsrichtung, die mit Experimenten untersucht, wie Menschen wirtschaftliche Entscheidungen tatsächlich treffen."},
+    {"begriff": "Ultimatumspiel", "definition": "Experiment: Eine Person schlägt eine Aufteilung eines Geldbetrags vor, die andere kann annehmen (beide bekommen den vorgeschlagenen Betrag) oder ablehnen (beide bekommen nichts)."},
+    {"begriff": "Diktatorspiel", "definition": "Variante des Ultimatumspiels ohne Ablehnungsmöglichkeit: Eine Person bestimmt die Aufteilung allein und endgültig."},
+    {"begriff": "Besitztumseffekt (Endowment-Effekt)", "definition": "Menschen bewerten Güter, die sie bereits besitzen, höher als identische Güter, die sie nicht besitzen."},
+    {"begriff": "Mental Accounting", "definition": "Die gedankliche Aufteilung von Geld in feste Budgets für bestimmte Zwecke, statt es flexibel und rational einzusetzen."},
+    {"begriff": "Homo reciprocans", "definition": "Alternativmodell zum Homo oeconomicus: Menschen handeln nicht rein eigennützig, sondern orientieren sich an Gegenseitigkeit — sie kooperieren, wenn andere es auch tun, und bestrafen unfaires Verhalten."},
+    {"begriff": "Nudging", "definition": "Von Richard Thaler geprägter Begriff für kleine psychologische „Anstupser“, mit denen Entscheidungen beeinflusst werden können, ohne Wahlfreiheit einzuschränken."},
+    {"begriff": "Beutelsbacher Konsens", "definition": "Grundprinzip politischer Bildung in Deutschland: Was in Wissenschaft und Gesellschaft kontrovers diskutiert wird, muss auch im Unterricht kontrovers dargestellt werden."}
+  ]
+}
+
+</script>
+
+<script>
+(function(){
+  var DATA = JSON.parse(document.getElementById("game-data").textContent);
+  var stage = document.getElementById("stage");
+
+  function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  var S = {
+    selfcheck: {}, // idx -> chosen option idx
+    ultimatum: { offer: 5, submitted: false, quizAnswered: null, diktatorAnswered: null },
+    kritikOpen: {},
+    posSlider: 50,
+    note: ""
+  };
+
+  try{
+    var savedNote = localStorage.getItem("ho_note");
+    if(savedNote) S.note = savedNote;
+    var savedPos = localStorage.getItem("ho_pos");
+    if(savedPos) S.posSlider = +savedPos;
+  }catch(e){}
+
+  // ============ ICONS ============
+  var ICO = {
+    rational: '<path d="M12 2a6 6 0 0 0-4 10.5c.6.6 1 1.4 1 2.3V16h6v-1.2c0-.9.4-1.7 1-2.3A6 6 0 0 0 12 2Z"/><path d="M9 19h6M10 22h4"/>',
+    nutzen: '<path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/>',
+    stabil: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+    info: '<path d="M4 19.5V5a2 2 0 0 1 2-2h12a1 1 0 0 1 1 1v13H6.5a2.5 2.5 0 0 0 0 5H20"/>',
+    cell: '<path d="M12 3c4 2 7 6 7 10a7 7 0 1 1-14 0c0-4 3-8 7-10Z"/><circle cx="12" cy="14" r="2"/>',
+    mug: '<path d="M4 8h12v7a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Z"/><path d="M16 9h2a2 2 0 0 1 0 4h-2"/><path d="M7 3c-.5 1 .5 1.5 0 2.5M10 3c-.5 1 .5 1.5 0 2.5"/>',
+    wallet: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16.5" cy="14" r="1.2"/>',
+    taxi: '<path d="M4 16V11l2-5h12l2 5v5"/><path d="M4 16h16M6 16v2M18 16v2"/><circle cx="7.5" cy="16" r="1.3"/><circle cx="16.5" cy="16" r="1.3"/><path d="M8 11h8"/>',
+    handshake: '<path d="M3 11l4-3 4 2 3-2 7 4-3 5-3-1-2 2-3-1-3-3"/><path d="M14 10l2 2-3 3"/>',
+    maze: '<circle cx="12" cy="12" r="9"/><path d="M12 8v.01M12 12a2 2 0 1 0-2-2"/><path d="M12 15v2"/>',
+    heart: '<path d="M12 20s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 5c-2.5 4.5-9.5 9-9.5 9Z"/>'
+  };
+  function iconSm(name){ return '<div class="icon-sm"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+ICO[name]+'</svg></div>'; }
+
+  var HERO_SVG = '<svg viewBox="0 0 200 140" width="100%" height="100%" fill="none">'
+    + '<ellipse cx="100" cy="124" rx="70" ry="9" style="fill:var(--surface-alt)"/>'
+    + '<line x1="100" y1="22" x2="100" y2="104" style="stroke:var(--ink-mute)" stroke-width="4" stroke-linecap="round"/>'
+    + '<path d="M78 104 h44" style="stroke:var(--ink-mute)" stroke-width="6" stroke-linecap="round"/>'
+    + '<path d="M56 36 L144 36" style="stroke:var(--ink-mute)" stroke-width="4" stroke-linecap="round"/>'
+    + '<circle cx="100" cy="36" r="6" style="fill:var(--ink-mute)"/>'
+    + '<path d="M56 36 L42 66 h28 Z" style="fill:var(--accent-soft);stroke:var(--accent)" stroke-width="2"/>'
+    + '<g transform="translate(56,48)"><path d="M-9 0a9 9 0 0 1 18 0c0 3-2 5-3 6.5V8h-12v-1.5C-14 5-9 3-9 0Z" style="fill:var(--accent-strong)"/></g>'
+    + '<path d="M144 36 L130 60 h28 Z" style="fill:var(--contra-soft);stroke:var(--contra)" stroke-width="2"/>'
+    + '<g transform="translate(144,46)"><path d="M0 7s-7-4.3-9.5-8.7A4.8 4.8 0 0 1 0-3.5a4.8 4.8 0 0 1 9.5 1.8C7 2.7 0 7 0 7Z" style="fill:var(--contra)"/></g>'
+    + '<line x1="56" y1="36" x2="56" y2="54" style="stroke:var(--accent)" stroke-width="2"/>'
+    + '<line x1="144" y1="36" x2="144" y2="46" style="stroke:var(--contra)" stroke-width="2"/>'
+  + '</svg>';
+
+  function esc_(x){ return esc(x); }
+
+  // ============ NAV ============
+  function renderNav(){
+    document.getElementById("navrow").innerHTML = DATA.nav.map(function(n){
+      return '<a class="navlink" href="#'+n.id+'" data-nid="'+n.id+'">'+esc(n.label)+'</a>';
+    }).join("");
+  }
+  function bindScrollspy(){
+    var links = Array.prototype.slice.call(document.querySelectorAll(".navlink"));
+    var sections = DATA.nav.map(function(n){ return document.getElementById(n.id); }).filter(Boolean);
+    function onScroll(){
+      var pos = window.scrollY + 90;
+      var current = sections[0] && sections[0].id;
+      sections.forEach(function(s){ if(s.offsetTop <= pos) current = s.id; });
+      links.forEach(function(l){ l.classList.toggle("active", l.getAttribute("data-nid")===current); });
+    }
+    window.addEventListener("scroll", onScroll);
+    onScroll();
+  }
+
+  function infoPanelHtml(){
+    return '<div class="info-panel" id="infoPanel" hidden>'
+      + '<h3>Kurzinfo für die Durchführung</h3>'
+      + '<ul>'
+        + '<li>Baut auf dem ökonomischen Prinzip und Grundbegriffen wie Knappheit und Opportunitätskosten auf.</li>'
+        + '<li>Zum Selbststudium oder als Einstieg mit anschließender Fishbowl-Diskussion geeignet (ca. 30–40 Minuten).</li>'
+        + '<li>Bewusst kontrovers angelegt (Beutelsbacher Konsens): Abschnitt 3 enthält sowohl Kritik am Modell als auch ein Gegenargument.</li>'
+        + '<li>Die „Deine Position"-Notiz wird nur lokal im Browser der/des Lernenden gespeichert — sie ist für ein persönliches Fazit gedacht, nicht zur Abgabe.</li>'
+      + '</ul>'
+    + '</div>';
+  }
+  function bindInfoBtn(){
+    document.getElementById("infoBtn").addEventListener("click", function(){
+      var p = document.getElementById("infoPanel");
+      p.hidden = !p.hidden;
+    });
+  }
+
+  // ============ HERO ============
+  function heroHtml(){
+    return '<div class="hero">'
+      + '<div class="kicker">Wirtschaft und Recht · 10. Jahrgangsstufe</div>'
+      + '<h1>'+esc(DATA.meta.titel)+'</h1>'
+      + '<div class="hero-art">'+HERO_SVG+'</div>'
+      + '<p class="hook">Entscheiden Menschen wirklich immer rational und nur zum eigenen Vorteil? Ein zentrales Modell der Wirtschaftswissenschaft sagt: Ja. Doch gerät es zunehmend in die Kritik.</p>'
+      + '<a class="btn primary big" href="#theorie" style="max-width:260px;margin:14px auto 0;display:block;">Los geht&rsquo;s ↓</a>'
+    + '</div>';
+  }
+
+  // ============ SECTION 1: THEORIE ============
+  function theorieHtml(){
+    var premHtml = DATA.praemissen.map(function(p){
+      return '<div class="praemisse">'+iconSm(p.id)+'<div class="txt"><b>'+esc(p.label)+'</b><p>'+esc(p.text)+'</p></div></div>';
+    }).join("");
+
+    return '<section id="theorie">'
+      + '<div class="section-head"><div class="num">Abschnitt 1</div><h2>Was ist der Homo oeconomicus?</h2></div>'
+      + '<div class="card">'
+        + '<p>In der Wirtschaftswissenschaft braucht man ein vereinfachtes Bild vom Menschen, um Vorhersagen treffen zu können, wie Menschen in wirtschaftlichen Situationen entscheiden. Dieses Modell heißt <b>Homo oeconomicus</b> — der „wirtschaftliche Mensch". Er folgt vier Grundannahmen:</p>'
+        + '<div class="praemisse-grid">'+premHtml+'</div>'
+        + '<div class="model-note">💡 Wichtig: Kein Modell beansprucht, die Wirklichkeit vollständig abzubilden — genauso wenig, wie eine Landkarte im Maßstab 1:1 sinnvoll wäre. Ein Modell MUSS vereinfachen, um nützlich zu sein.</div>'
+      + '</div>'
+      + '<div class="card">'
+        + '<h3 style="font-size:16px;">Kurzer Selbstcheck</h3>'
+        + '<p style="font-size:13.5px;">Beantworte spontan — es gibt kein Richtig oder Falsch. Vergleiche danach deine Antworten mit dem, was ein perfekter Homo oeconomicus tun würde.</p>'
+        + '<div id="selfcheckHolder"></div>'
+      + '</div>'
+    + '</section>';
+  }
+
+  function renderSelfcheck(){
+    var holder = document.getElementById("selfcheckHolder");
+    if(!holder) return;
+    var answeredAll = DATA.selbstcheck.every(function(q,i){ return S.selfcheck[i] !== undefined; });
+
+    var html = DATA.selbstcheck.map(function(q, i){
+      var chosen = S.selfcheck[i];
+      var optsHtml = q.optionen.map(function(opt, j){
+        return '<button class="check-opt'+(chosen===j?" chosen":"")+'" data-qi="'+i+'" data-oi="'+j+'" '+(chosen!==undefined?"disabled":"")+'>'+esc(opt)+(chosen!==undefined && j===q.homo_oeconomicus_antwort ? ' <span style="color:var(--accent-strong);font-weight:700;">(Homo-oeconomicus-Wahl)</span>' : '')+'</button>';
+      }).join("");
+      return '<div class="check-card"><div class="check-q">'+esc(q.frage)+'</div>'+optsHtml+'</div>';
+    }).join("");
+
+    if(answeredAll){
+      var matches = DATA.selbstcheck.filter(function(q,i){ return S.selfcheck[i]===q.homo_oeconomicus_antwort; }).length;
+      html += '<div class="check-result"><div class="big-num">'+matches+' / '+DATA.selbstcheck.length+'</div>'
+        + '<p>Mal hast du wie der Homo oeconomicus entschieden, mal nicht — das ist völlig normal. Schauen wir uns an, was passiert, wenn echte Menschen im Experiment entscheiden müssen.</p></div>';
+    }
+
+    holder.innerHTML = html;
+    holder.querySelectorAll(".check-opt").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var qi = +btn.getAttribute("data-qi"), oi = +btn.getAttribute("data-oi");
+        S.selfcheck[qi] = oi;
+        renderSelfcheck();
+      });
+    });
+  }
+
+  // ============ SECTION 2: ULTIMATUMSPIEL ============
+  function spielHtml(){
+    return '<section id="spiel">'
+      + '<div class="section-head"><div class="num">Abschnitt 2</div><h2>Das Experiment: Ultimatumspiel</h2></div>'
+      + '<div class="card">'
+        + '<div class="scenario-box"><p>'+esc(DATA.ultimatum.intro)+'</p></div>'
+        + '<div id="ultimatumHolder"></div>'
+      + '</div>'
+    + '</section>';
+  }
+
+  function renderUltimatum(){
+    var holder = document.getElementById("ultimatumHolder");
+    if(!holder) return;
+    var U = DATA.ultimatum;
+    var st = S.ultimatum;
+    var html = "";
+
+    if(!st.submitted){
+      html += '<div class="slider-block">'
+        + '<div class="slider-val">'+st.offer+' € an die andere Person</div>'
+        + '<input type="range" id="offerSlider" min="0" max="10" step="1" value="'+st.offer+'">'
+        + '<div class="slider-labels"><span>0 €</span><span>10 €</span></div>'
+      + '</div>'
+      + '<button class="btn primary big" id="submitOfferBtn">Angebot abgeben</button>';
+    } else {
+      var accepted = st.offer >= U.reject_threshold;
+      html += '<div class="feedback-box '+(accepted?"good":"bad")+'">'
+        + (accepted
+          ? 'Angebot angenommen! Du behältst '+(10-st.offer)+' €, die andere Person bekommt '+st.offer+' €.'
+          : 'Angebot abgelehnt! Weil es als zu unfair empfunden wurde, bekommt <b>niemand</b> etwas.')
+      + '</div>';
+
+      if(st.quizAnswered === null){
+        html += '<p style="font-weight:700;color:var(--ink);margin-top:14px;">'+esc(U.quiz.frage)+'</p>';
+        U.quiz.optionen.forEach(function(opt, i){
+          html += '<button class="quiz-opt" data-i="'+i+'">'+esc(opt)+'</button>';
+        });
+      } else {
+        U.quiz.optionen.forEach(function(opt, i){
+          var cls = i===U.quiz.richtig ? "correct" : (i===st.quizAnswered && i!==U.quiz.richtig ? "wrong" : "");
+          html += '<div class="quiz-opt '+cls+'" style="cursor:default;'+(cls?"":"opacity:.55;")+'">'+esc(opt)+'</div>';
+        });
+        html += '<div class="feedback-box good">'+esc(U.quiz.erklaerung)+'</div>';
+
+        if(st.diktatorAnswered === null){
+          html += '<p style="font-weight:700;color:var(--ink);margin-top:14px;">'+esc(U.diktator.frage)+'</p>';
+          U.diktator.optionen.forEach(function(opt, i){
+            html += '<button class="quiz-opt" data-dk="'+i+'">'+esc(opt)+'</button>';
+          });
+        } else {
+          U.diktator.optionen.forEach(function(opt, i){
+            var cls2 = i===U.diktator.richtig ? "correct" : (i===st.diktatorAnswered && i!==U.diktator.richtig ? "wrong" : "");
+            html += '<div class="quiz-opt '+cls2+'" style="cursor:default;'+(cls2?"":"opacity:.55;")+'">'+esc(opt)+'</div>';
+          });
+          html += '<div class="feedback-box good">'+esc(U.diktator.erklaerung)+'</div>';
+        }
+      }
+    }
+
+    holder.innerHTML = html;
+
+    var slider = document.getElementById("offerSlider");
+    if(slider) slider.addEventListener("input", function(){ st.offer = +slider.value; renderUltimatum(); });
+    var sb = document.getElementById("submitOfferBtn");
+    if(sb) sb.addEventListener("click", function(){ st.submitted = true; renderUltimatum(); });
+    holder.querySelectorAll(".quiz-opt[data-i]").forEach(function(btn){
+      btn.addEventListener("click", function(){ st.quizAnswered = +btn.getAttribute("data-i"); renderUltimatum(); });
+    });
+    holder.querySelectorAll(".quiz-opt[data-dk]").forEach(function(btn){
+      btn.addEventListener("click", function(){ st.diktatorAnswered = +btn.getAttribute("data-dk"); renderUltimatum(); });
+    });
+  }
+
+  // ============ SECTION 3: KRITIK ============
+  function kritikHtml(){
+    var cardsHtml = DATA.kritikpunkte.map(function(k){
+      var open = !!S.kritikOpen[k.id];
+      var tagCls = k.spannung === "homo_oeconomicus" ? "verteidigung" : "kritik";
+      return '<div class="card kritik-card'+(open?" open":"")+'" data-kid="'+k.id+'" data-spannung="'+k.spannung+'">'
+        + '<div class="kritik-head">'+iconSm(k.icon)+'<h3>'+esc(k.titel)+'</h3><span class="chevron">▾</span></div>'
+        + '<span class="kritik-tag '+tagCls+'" style="margin-top:8px;display:inline-block;">'+esc(k.kicker)+'</span>'
+        + (open ? '<div class="kritik-body">'
+            + '<span class="lbl">Klassische Theorie sagt</span><div class="vorhersage">'+esc(k.vorhersage)+'</div>'
+            + '<span class="lbl">Was tatsächlich passierte</span><div class="text">'+esc(k.text)+'</div>'
+            + '<span class="lbl">Fazit</span><div class="pointe">'+esc(k.pointe)+'</div>'
+          + '</div>' : '')
+      + '</div>';
+    }).join("");
+
+    return '<section id="kritik">'
+      + '<div class="section-head"><div class="num">Abschnitt 3</div><h2>Die Kritik — echte Experimente</h2></div>'
+      + '<p style="font-size:13.5px;margin-bottom:14px;">Tippt auf eine Karte, um sie zu öffnen. Sechs Beispiele stellen das Modell infrage — eines verteidigt es.</p>'
+      + cardsHtml
+    + '</section>';
+  }
+
+  function bindKritik(){
+    document.querySelectorAll(".kritik-head").forEach(function(head){
+      head.addEventListener("click", function(){
+        var card = head.closest(".kritik-card");
+        var kid = card.getAttribute("data-kid");
+        S.kritikOpen[kid] = !S.kritikOpen[kid];
+        renderAll(false);
+      });
+    });
+  }
+
+  // ============ SECTION 4: WISSENSCHAFT ============
+  function wissenschaftHtml(){
+    var contraHtml = DATA.wissenschaft.contra.punkte.map(function(p){ return '<div class="sci-item">'+esc(p)+'</div>'; }).join("");
+    var proHtml = DATA.wissenschaft.pro.punkte.map(function(p){ return '<div class="sci-item">'+esc(p)+'</div>'; }).join("");
+    return '<section id="wissenschaft">'
+      + '<div class="section-head"><div class="num">Abschnitt 4</div><h2>Was sagt die Forschung?</h2></div>'
+      + '<div class="card">'
+        + '<div class="scicol contra"><h3>⚔️ '+esc(DATA.wissenschaft.contra.titel)+'</h3>'+contraHtml+'</div>'
+        + '<div class="scicol pro"><h3>🛡️ '+esc(DATA.wissenschaft.pro.titel)+'</h3>'+proHtml+'</div>'
+        + '<div class="fazit-box">⚖️ '+esc(DATA.wissenschaft.fazit)+'</div>'
+      + '</div>'
+    + '</section>';
+  }
+
+  // ============ SECTION 5: POSITION ============
+  function positionHtml(){
+    return '<section id="position">'
+      + '<div class="section-head"><div class="num">Abschnitt 5</div><h2>Deine Position</h2></div>'
+      + '<div class="card">'
+        + '<p>Nachdem ihr Theorie, Experiment, Kritik und Forschungsmeinungen kennengelernt habt: Wo steht ihr?</p>'
+        + '<div class="pos-slider-labels"><span>Modell beibehalten</span><span>Modell überdenken</span></div>'
+        + '<input type="range" id="posSlider" min="0" max="100" step="1" value="'+S.posSlider+'">'
+        + '<p style="margin-top:16px;font-size:13.5px;font-weight:600;color:var(--ink);">Deine Notizen (nur auf diesem Gerät gespeichert):</p>'
+        + '<textarea id="noteArea" placeholder="Welches Argument hat dich am meisten überzeugt? Wo bist du anderer Meinung?">'+esc(S.note)+'</textarea>'
+        + '<div class="save-hint" id="saveHint">&nbsp;</div>'
+      + '</div>'
+    + '</section>';
+  }
+
+  function bindPosition(){
+    var ps = document.getElementById("posSlider");
+    if(ps) ps.addEventListener("input", function(){
+      S.posSlider = +ps.value;
+      try{ localStorage.setItem("ho_pos", String(S.posSlider)); }catch(e){}
+    });
+    var na = document.getElementById("noteArea");
+    if(na) na.addEventListener("input", function(){
+      S.note = na.value;
+      try{ localStorage.setItem("ho_note", S.note); }catch(e){}
+      var hint = document.getElementById("saveHint");
+      if(hint){ hint.textContent = "Gespeichert ✓"; }
+    });
+  }
+
+  // ============ GLOSSARY ============
+  function glossaryHtml(){
+    var items = DATA.glossar.map(function(g){
+      return '<div class="glossary-item"><div class="term">'+esc(g.begriff)+'</div><div class="def">'+esc(g.definition)+'</div></div>';
+    }).join("");
+    return '<section id="glossar">'
+      + '<div class="section-head"><div class="num">Nachschlagen</div><h2>Glossar</h2></div>'
+      + '<div class="card">'+items+'</div>'
+      + '<p style="text-align:center; font-size:11.5px; color:var(--ink-mute); margin-top:10px;">'+esc(DATA.meta.quelle)+'</p>'
+    + '</section>';
+  }
+
+  // ============ RENDER ============
+  function renderAll(scrollTop){
+    stage.innerHTML = heroHtml() + theorieHtml() + spielHtml() + kritikHtml() + wissenschaftHtml() + positionHtml() + glossaryHtml();
+    renderSelfcheck();
+    renderUltimatum();
+    bindKritik();
+    bindPosition();
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    renderNav();
+    document.getElementById("infoPanelHolder").innerHTML = infoPanelHtml();
+    bindInfoBtn();
+    renderAll(false);
+    bindScrollspy();
+  });
+})();
+</script>
+</body>
+</html>
